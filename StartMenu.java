@@ -1,3 +1,6 @@
+/**
+ * StartMenu GUI
+ */
 package mancala;
 
 import java.awt.event.ActionEvent;
