@@ -7,11 +7,13 @@ public class BoardOne extends JFrame implements Board  {
 	private JPanel board;
 	private JPanel pits;
 	private JPanel pitA; //player A mancala store
-	private JPanel pitB;
+	private JPanel pitB;//player B mancala store
 	private JPanel pit;
-	private JLabel mancalaLabel;
+	
+	//private JLabel mancalaLabel;
+	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 500;
-	private static final int WINDOW_WIDTH = 500;
+
 	
 	public BoardOne() {
 		initializeBoard();
@@ -29,9 +31,10 @@ public class BoardOne extends JFrame implements Board  {
 		pit = new JPanel();
 		//mancalaLabel = new JLabel("MANCALA");
 		
-		this.setBounds(10, 10, WINDOW_WIDTH, WINDOW_HEIGHT);
-		//setSize(WINDOW_HEIGHT, WINDOW_WIDTH);
-		this.setLocation(400,200);
+		//this.setBounds(600, 200, WINDOW_WIDTH, WINDOW_HEIGHT);
+		
+		pitA.setBounds(100, 200, 99, 100);
+		pitB.setBounds(700, 200, 99, 100);
 		
 		pit.setBackground(Color.green);
 		pitA.setBackground(Color.red);
@@ -45,14 +48,18 @@ public class BoardOne extends JFrame implements Board  {
 		pits.add(pit);
 		
 		board.setLayout(new BorderLayout());
-		board.add(mancalaLabel, BorderLayout.NORTH);
+		//board.add(mancalaLabel, BorderLayout.NORTH);
 		board.add(pits, BorderLayout.CENTER);
 		board.add(pitA, BorderLayout.WEST);
 		board.add(pitB, BorderLayout.EAST);
 		
-		this.getContentPane().add(board);
+		
+		this.add(board);
+		//this.getContentPane().add(board);
+		this.setLocation(600,200);
+		this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.pack();
+		//this.pack();
 		this.setVisible(true);
 		
 	}
