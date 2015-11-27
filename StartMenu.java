@@ -21,7 +21,7 @@ public class StartMenu extends JFrame{
 	private JButton board1;
 	private JButton board2;
 	private JPanel mainPanel;
-	private JButton okButton;
+	private JButton quit;
 	
 	MancalaModel model;
 	
@@ -35,9 +35,8 @@ public class StartMenu extends JFrame{
 		board1 = new JButton("A");
 		board2 = new JButton("B");
 		mainPanel = new JPanel();
-		okButton = new JButton("OK!");
+		quit = new JButton("QUIT");
 		
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		mainPanel.add(welcome);
 		mainPanel.add(pickNumber);
 		mainPanel.add(button1);
@@ -45,11 +44,11 @@ public class StartMenu extends JFrame{
 		mainPanel.add(pickBoard);
 		mainPanel.add(board1);
 		mainPanel.add(board2);
-		//mainPanel.add(okButton);
+		mainPanel.add(quit);
 		this.add(mainPanel);
 		
 		this.setLocation(600, 200);
-		this.setSize(150, 230);
+		this.setSize(150, 260);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 		
@@ -77,7 +76,7 @@ public class StartMenu extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO generate BoardOne and close this frame
+				// TODO call BoardOne and close this frame
 				// BoardOne b = new BoardOne();
 				BoardOne b = new BoardOne();
 				closeMenu();
@@ -88,24 +87,20 @@ public class StartMenu extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO generate BoardTwo and close this frame
+				// TODO call BoardTwo and close this frame
 				// BoardTwo b = new BoardTwo();
+				closeMenu();
+			}
+		});
+		
+		quit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
 				closeMenu();
 				
 			}
 		});
-		
-		okButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO NOT SURE IF WE NEED THIS. maybe we should launch the 
-				// 		board when user chooses board A or B
-				
-			}
-		});
-		
-		
 	}
 	private void closeMenu() {
 		this.dispose();
