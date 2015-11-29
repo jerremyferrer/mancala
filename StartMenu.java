@@ -3,6 +3,7 @@
  */
 package mancala;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -32,8 +33,8 @@ public class StartMenu extends JFrame{
 		button1 = new JButton("3");
 		button2 = new JButton("4");
 		pickBoard = new JLabel("Choose a board theme");
-		board1 = new JButton("A");
-		board2 = new JButton("B");
+		board1 = new JButton("RED");
+		board2 = new JButton("GREEN");
 		mainPanel = new JPanel();
 		quit = new JButton("QUIT");
 		
@@ -47,6 +48,8 @@ public class StartMenu extends JFrame{
 		mainPanel.add(quit);
 		this.add(mainPanel);
 		
+		mainPanel.setOpaque(true);
+		mainPanel.setBackground(Color.GREEN);
 		this.setLocation(600, 200);
 		this.setSize(150, 260);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
