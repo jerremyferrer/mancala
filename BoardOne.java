@@ -39,6 +39,7 @@ public class BoardOne extends JFrame implements Board  {
 		initializeAPits();
 		initializeBPits();
 		initializeCenterBoard();
+		setColor();
 		
 		this.setResizable(false);
 		this.getContentPane().add(board);
@@ -49,7 +50,7 @@ public class BoardOne extends JFrame implements Board  {
 	}
 	public void initializeAPits() {
 		Apits = new JPanel(new GridLayout());
-		Apits.setBackground(Color.RED);
+		//Apits.setBackground(Color.RED);
 		Apits.add(fillerSpace3);
 		for(int i = 0; i < 6; i++) {
 			StandardPit stPit = new StandardPit();
@@ -60,7 +61,7 @@ public class BoardOne extends JFrame implements Board  {
 	}
 	public void initializeBPits() {
 		Bpits = new JPanel(new GridLayout());
-		Bpits.setBackground(Color.RED);
+		//Bpits.setBackground(Color.RED);
 		Bpits.add(fillerSpace);
 		for(int i = 0; i < 6; i++) {
 			StandardPit stPit = new StandardPit();
@@ -71,7 +72,7 @@ public class BoardOne extends JFrame implements Board  {
 	}
 	public void initializeMainPitA() {
 		pitA = new JPanel();
-		pitA.setBackground(Color.RED);
+		//pitA.setBackground(Color.RED);
 		Alabel = new JLabel("A");
 		BigPit bPit = new BigPit();
 		pitA.add(Alabel);
@@ -81,7 +82,7 @@ public class BoardOne extends JFrame implements Board  {
 	}
 	public void initializeMainPitB() {
 		pitB = new JPanel();
-		pitB.setBackground(Color.RED);
+		//pitB.setBackground(Color.RED);
 		Blabel = new JLabel("B");
 		BigPit bPit = new BigPit();
 		pitB.add(new JLabel(bPit));
@@ -90,7 +91,7 @@ public class BoardOne extends JFrame implements Board  {
 	}
 	public void initializeCenterBoard() {
 		displayPanel = new JPanel();
-		displayPanel.setBackground(Color.RED);
+		//displayPanel.setBackground(Color.RED);
 		newGameBut = new JButton("New Game");
 		newGameBut.addActionListener(new ActionListener() {
 			@Override
@@ -104,5 +105,12 @@ public class BoardOne extends JFrame implements Board  {
 	}
 	public void closeGameFrame() {
 		this.dispose();
+	}
+	public void setColor() {
+		displayPanel.setBackground(Color.RED);
+		pitB.setBackground(Color.RED);
+		pitA.setBackground(Color.RED);
+		Apits.setBackground(Color.RED);
+		Bpits.setBackground(Color.RED);
 	}
 }

@@ -109,4 +109,10 @@ public class BoardTwo extends JFrame implements Board  {
 	public void closeGameFrame() {
 		this.dispose();
 	}
+
+	@Override
+	public void setColor() {
+		// TODO Auto-generated method stub
+		
+	}
 }
