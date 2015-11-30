@@ -3,6 +3,8 @@ package mancala;
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class BoardOne extends JFrame implements Board  {
 	private JPanel board;
@@ -10,6 +12,9 @@ public class BoardOne extends JFrame implements Board  {
 	private JPanel Bpits;
 	private JPanel pitA; //player A mancala store
 	private JPanel pitB;//player B mancala store
+	private JPanel displayPanel;
+	
+	private JButton newGameBut;
 	
 	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 300;
@@ -26,6 +31,7 @@ public class BoardOne extends JFrame implements Board  {
 		initializeMainPitA();
 		initializeAPits();
 		initializeBPits();
+		initializeCenterBoard();
 		
 		this.getContentPane().add(board);
 		this.setLocation(600,200);
@@ -66,5 +72,21 @@ public class BoardOne extends JFrame implements Board  {
 		pitB.add(new JLabel(bPit));
 		board.add(pitB, BorderLayout.EAST);
 	}
-	
+	public void initializeCenterBoard() {
+		displayPanel = new JPanel();
+		displayPanel.setBackground(Color.RED);
+		newGameBut = new JButton("New Game");
+		newGameBut.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				StartMenu s = new StartMenu();
+				closeGameFrame();
+			}
+		});
+		displayPanel.add(newGameBut);
+		board.add(displayPanel, BorderLayout.CENTER);
+	}
+	public void closeGameFrame() {
+		this.dispose();
+	}
 }
