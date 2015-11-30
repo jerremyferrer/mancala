@@ -13,9 +13,17 @@ public class BoardTwo extends JFrame implements Board  {
 	private JPanel pitA; //player A mancala store
 	private JPanel pitB;//player B mancala store
 	
+	
 	private JPanel displayPanel;
 	
 	private JButton newGameBut;
+	
+	private JLabel fillerSpace = new JLabel(" ");
+	private JLabel fillerSpace2 = new JLabel(" ");
+	private JLabel fillerSpace3 = new JLabel(" ");
+	private JLabel fillerSpace4 = new JLabel(" ");
+	private JLabel Alabel;
+	private JLabel Blabel;
 	
 	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 300;
@@ -34,6 +42,7 @@ public class BoardTwo extends JFrame implements Board  {
 		initializeBPits();
 		initializeCenterBoard();
 		
+		this.setResizable(false);
 		this.getContentPane().add(board);
 		this.setLocation(600,200);
 		this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -41,37 +50,47 @@ public class BoardTwo extends JFrame implements Board  {
 		this.setVisible(true);	
 	}
 	public void initializeAPits() {
-		Apits = new JPanel(new GridLayout(1, 4));
+		Apits = new JPanel(new GridLayout());
 		Apits.setBackground(Color.GREEN);
+		Apits.add(fillerSpace3);
 		for(int i = 0; i < 6; i++) {
 			StandardPit stPit = new StandardPit();
 			Apits.add(new JLabel(stPit));
 		}
+		Apits.add(fillerSpace4);
 		board.add(Apits, BorderLayout.SOUTH);
 	}
 	public void initializeBPits() {
-		Bpits = new JPanel(new GridLayout(1, 4));
+		Bpits = new JPanel(new GridLayout());
 		Bpits.setBackground(Color.GREEN);
+		Bpits.add(fillerSpace);
 		for(int i = 0; i < 6; i++) {
 			StandardPit stPit = new StandardPit();
 			Bpits.add(new JLabel(stPit));
 		}
+		Bpits.add(fillerSpace2);
 		board.add(Bpits, BorderLayout.NORTH);
+	
 	}
 	public void initializeMainPitA() {
 		pitA = new JPanel();
 		pitA.setBackground(Color.GREEN);
+		Alabel = new JLabel("A");
 		BigPit bPit = new BigPit();
+		pitA.add(Alabel);
 		pitA.add(new JLabel(bPit));
-		board.add(pitA, BorderLayout.WEST);
+		board.add(pitA, BorderLayout.EAST);
 		
 	}
 	public void initializeMainPitB() {
 		pitB = new JPanel();
 		pitB.setBackground(Color.GREEN);
+		Blabel = new JLabel("B");
 		BigPit bPit = new BigPit();
 		pitB.add(new JLabel(bPit));
-		board.add(pitB, BorderLayout.EAST);
+		pitB.add(Blabel);
+		
+		board.add(pitB, BorderLayout.WEST);
 	}
 	public void initializeCenterBoard() {
 		displayPanel = new JPanel();

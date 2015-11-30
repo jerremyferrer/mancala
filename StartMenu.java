@@ -50,6 +50,7 @@ public class StartMenu extends JFrame{
 		
 		mainPanel.setOpaque(true);
 		mainPanel.setBackground(Color.GREEN);
+		this.setResizable(false);
 		this.setLocation(600, 200);
 		this.setSize(150, 260);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -57,16 +58,13 @@ public class StartMenu extends JFrame{
 		
 		
 		button1.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO set number of beads to 3
 				model.setInitialBeadAmount(3);
 			}
 		});
-		
 		button2.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO set number of beads to 4
