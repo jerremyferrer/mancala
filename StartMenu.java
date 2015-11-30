@@ -80,7 +80,6 @@ public class StartMenu extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO call BoardOne and close this frame
-				// BoardOne b = new BoardOne();
 				BoardOne b = new BoardOne();
 				closeMenu();
 			}
@@ -91,7 +90,7 @@ public class StartMenu extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO call BoardTwo and close this frame
-				// BoardTwo b = new BoardTwo();
+			    BoardTwo b = new BoardTwo();
 				closeMenu();
 			}
 		});
