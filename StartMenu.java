@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class StartMenu extends JFrame{
+	
 	private JButton button1;
 	private JButton button2;
 	private JLabel pickNumber;
@@ -60,14 +61,14 @@ public class StartMenu extends JFrame{
 		button1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO set number of beads to 3
+				// set number of beads to 3
 				model.setInitialBeadAmount(3);
 			}
 		});
 		button2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO set number of beads to 4
+				// set number of beads to 4
 				model.setInitialBeadAmount(4);
 				
 			}
@@ -77,7 +78,7 @@ public class StartMenu extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO call BoardOne and close this frame
+				// call BoardOne and close this frame
 				BoardOne b = new BoardOne();
 				closeMenu();
 			}
@@ -87,8 +88,8 @@ public class StartMenu extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO call BoardTwo and close this frame
-			    BoardTwo b = new BoardTwo();
+				// call BoardTwo and close this frame
+			    BoardTwo b2 = new BoardTwo();
 				closeMenu();
 			}
 		});

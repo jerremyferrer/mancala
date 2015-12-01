@@ -6,113 +6,19 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class BoardTwo extends JFrame implements Board  {
-	private JPanel board;
-	private JPanel Apits;
-	private JPanel Bpits;
-	private JPanel pitA; //player A mancala store
-	private JPanel pitB;//player B mancala store
-	
-	
-	private JPanel displayPanel;
-	
-	private JButton newGameBut;
-	
-	private JLabel fillerSpace = new JLabel(" ");
-	private JLabel fillerSpace2 = new JLabel(" ");
-	private JLabel fillerSpace3 = new JLabel(" ");
-	private JLabel fillerSpace4 = new JLabel(" ");
-	private JLabel Alabel;
-	private JLabel Blabel;
-	
-	private static final int WINDOW_WIDTH = 800;
-	private static final int WINDOW_HEIGHT = 300;
-
+public class BoardTwo extends BoardOne {
 	public BoardTwo() {
-		this.setTitle("Mancala");
-		board = new JPanel(new BorderLayout());
-		board.setBackground(Color.GREEN);
-		initializeBoard();
+		setColor();
 	}
-	
-	public void initializeBoard() {
-		initializeMainPitB();
-		initializeMainPitA();
-		initializeAPits();
-		initializeBPits();
-		initializeCenterBoard();
-		
-		this.setResizable(false);
-		this.getContentPane().add(board);
-		this.setLocation(600,200);
-		this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setVisible(true);	
-	}
-	public void initializeAPits() {
-		Apits = new JPanel(new GridLayout());
-		Apits.setBackground(Color.GREEN);
-		Apits.add(fillerSpace3);
-		for(int i = 0; i < 6; i++) {
-			StandardPit stPit = new StandardPit();
-			Apits.add(new JLabel(stPit));
-		}
-		Apits.add(fillerSpace4);
-		board.add(Apits, BorderLayout.SOUTH);
-	}
-	public void initializeBPits() {
-		Bpits = new JPanel(new GridLayout());
-		Bpits.setBackground(Color.GREEN);
-		Bpits.add(fillerSpace);
-		for(int i = 0; i < 6; i++) {
-			StandardPit stPit = new StandardPit();
-			Bpits.add(new JLabel(stPit));
-		}
-		Bpits.add(fillerSpace2);
-		board.add(Bpits, BorderLayout.NORTH);
-	
-	}
-	public void initializeMainPitA() {
-		pitA = new JPanel();
-		pitA.setBackground(Color.GREEN);
-		Alabel = new JLabel("A");
-		BigPit bPit = new BigPit();
-		pitA.add(Alabel);
-		pitA.add(new JLabel(bPit));
-		board.add(pitA, BorderLayout.EAST);
-		
-	}
-	public void initializeMainPitB() {
-		pitB = new JPanel();
-		pitB.setBackground(Color.GREEN);
-		Blabel = new JLabel("B");
-		BigPit bPit = new BigPit();
-		pitB.add(new JLabel(bPit));
-		pitB.add(Blabel);
-		
-		board.add(pitB, BorderLayout.WEST);
-	}
-	public void initializeCenterBoard() {
-		displayPanel = new JPanel();
-		displayPanel.setBackground(Color.GREEN);
-		newGameBut = new JButton("New Game");
-		newGameBut.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				StartMenu s = new StartMenu();
-				closeGameFrame();
-			}
-		});
-		displayPanel.add(newGameBut);
-		board.add(displayPanel, BorderLayout.CENTER);
-	}
-	public void closeGameFrame() {
-		this.dispose();
-	}
-
-	@Override
 	public void setColor() {
-		// TODO Auto-generated method stub
-		
+		displayPanel.setBackground(Color.GREEN);
+		pitB.setBackground(Color.GREEN);
+		pitA.setBackground(Color.GREEN);
+		Apits.setBackground(Color.GREEN);
+		Bpits.setBackground(Color.GREEN);
 	}
+	
+
+	
+
 }

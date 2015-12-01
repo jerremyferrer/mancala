@@ -7,12 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class BoardOne extends JFrame implements Board  {
-	private JPanel board;
-	private JPanel Apits;
-	private JPanel Bpits;
-	private JPanel pitA; //player A mancala store
-	private JPanel pitB;//player B mancala store
-	private JPanel displayPanel;
+	protected JPanel board;
+	protected JPanel Apits;
+	protected JPanel Bpits;
+	protected JPanel pitA; //player A mancala store
+	protected JPanel pitB;//player B mancala store
+	protected JPanel displayPanel;
 	
 	private JButton newGameBut;
 	
