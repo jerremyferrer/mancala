@@ -18,11 +18,13 @@ public abstract class Pit implements Icon, ChangeListener {
 	protected int y;
 	protected int width;
 	protected int height;
+	protected ArrayList<Beads> bead;
 	
 	//no constructor b/c abstract class
 	
 	@ Override
-	public void paintIcon(Component c, Graphics g, int x, int y) {
+	public void paintIcon(Component c, Graphics g, int x, int y) 
+	{
 		// TODO Complete third line
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.BLACK);
