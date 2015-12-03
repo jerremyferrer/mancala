@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -44,8 +45,12 @@ public abstract class Pit implements Icon, ChangeListener {
 	}
 
 	@Override
-	public void stateChanged(ChangeEvent e) {
-		// TODO Auto-generated method stub
-		//this.paintIcon(c, new Graphics(), x, y);
+	public void stateChanged(ChangeEvent e) 
+	{
+		//repaint
+	}
+	public boolean contains(Point2D p)
+	{
+		return shape.contains(p);
 	}
 }
