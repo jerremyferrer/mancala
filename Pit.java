@@ -1,12 +1,11 @@
-package mancala;
 
 import java.awt.Color;
 import java.awt.Component;
-
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import javax.swing.Icon;
 import javax.swing.event.ChangeEvent;
@@ -14,10 +13,12 @@ import javax.swing.event.ChangeListener;
 
 public abstract class Pit implements Icon, ChangeListener {
 	protected Ellipse2D shape;
+	protected final int BEADSIZE = 10;
 	protected int x;
 	protected int y;
 	protected int width;
 	protected int height;
+	protected Controller c;
 	protected ArrayList<Beads> bead;
 	
 	//no constructor b/c abstract class
@@ -45,6 +46,6 @@ public abstract class Pit implements Icon, ChangeListener {
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		// TODO Auto-generated method stub
-		
+		//this.paintIcon(c, new Graphics(), x, y);
 	}
 }
