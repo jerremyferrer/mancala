@@ -1,8 +1,13 @@
-package mancala;
-
-public class MancalaModel {
-	private Pit[] playerApits;
-	private Pit[] playerBpits;
+import java.util.*;
+/**
+ * Model for the Mancalla game
+ * @author Sydney Snyder
+ *
+ */
+public class Model 
+{
+	private ArrayList<Pit> playerApits;
+	private ArrayList<Pit> playerBpits;
 	private int initialBeadAmount;
 	private Player playerA;
 	private Player playerB;
@@ -10,11 +15,11 @@ public class MancalaModel {
 	/**
 	 * Initiates the arrays for Player A and Player B
 	 */
-	public MancalaModel() 
+	public Model() 
 	{
-		playerApits[] = new Pit[6];//going to switch to contain specific pits
-		playerBpits[] = new Pit[6];//""
 		current = playerA;
+		playerApits = new ArrayList<Pit>();
+		playerBpits = new ArrayList<Pit>();
 	}
 	/**
 	 * Sets the initial amount of beads
@@ -37,7 +42,7 @@ public class MancalaModel {
 	 * Returns playerApits array
 	 * @return playerApits
 	 */
-	public Pit[] getPlayerA()
+	public ArrayList<Pit> getPlayerA()
 	{
 		return playerApits;
 	}
@@ -45,9 +50,25 @@ public class MancalaModel {
 	 * Returns playerBpits array
 	 * @return playerBpits
 	 */
-	public Pit[] getPlayerB()
+	public ArrayList<Pit> getPlayerB()
 	{
 		return playerBpits;
+	}
+	/**
+	 * Adds pits to A pits
+	 * @param p - pit to add
+	 */
+	public void addPitsA(Pit p)
+	{
+		playerApits.add(p);
+	}
+	/**
+	 * Adds pits to B pits
+	 * @param p - pit to add
+	 */
+	public void addPitsB(Pit p)
+	{
+		playerBpits.add(p);
 	}
 	/**
 	 * Sees if Player A pits contain a specific pit
@@ -57,9 +78,9 @@ public class MancalaModel {
 	public boolean findPitA(Pit p)
 	{
 		if(playerApits.contains(p))
-			return true
+			return true;
 		else
-			return false
+			return false;
 	}
 	/**
 	 * Sees if Player B pits contain a specific pit
@@ -69,9 +90,9 @@ public class MancalaModel {
 	public boolean findPitB(Pit p)
 	{
 		if(playerBpits.contains(p))
-			return true
+			return true;
 		else
-			return false
+			return false;
 	}
 	/**
 	 * Returns the current player
