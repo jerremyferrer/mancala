@@ -295,13 +295,13 @@ public class BoardTwo extends JFrame implements Board  {
 	}
 	public void gameOver()
 	{
-		if(bigPitB.getBeadAmount() == endGame)
+		if(bigPitB.getBeadSize() == endGame)
 		{
 			JOptionPane.showMessageDialog(new JFrame(), "Player B wins!");
 			closeGameFrame();
 			StartMenu s = new StartMenu();
 		}
-		else if(bigPitA.getBeadAmount() == endGame)
+		else if(bigPitA.getBeadSize() == endGame)
 		{
 			JOptionPane.showMessageDialog(new JFrame(), "Player A wins!");
 			closeGameFrame();
