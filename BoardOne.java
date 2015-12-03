@@ -1,18 +1,23 @@
-package mancala;
-
 import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-public class BoardOne extends JFrame implements Board  {
-	protected JPanel board;
-	protected JPanel Apits;
-	protected JPanel Bpits;
-	protected JPanel pitA; //player A mancala store
-	protected JPanel pitB;//player B mancala store
-	protected JPanel displayPanel;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+/**
+ * Creates a board, BoardOne theme
+ * @author Sydney Snyder, Jerremy Ferrer, & Royce Florence Rocco
+ *
+ */
+public class BoardOne extends JFrame implements Board  
+{
+	private JPanel board;
+	private JPanel Apits;
+	private JPanel Bpits;
+	private JPanel pitA; //player A mancala store
+	private JPanel pitB;//player B mancala store
+	private JPanel displayPanel;
 	
 	private JButton newGameBut;
 	
@@ -23,21 +28,34 @@ public class BoardOne extends JFrame implements Board  {
 	private JLabel Alabel;
 	private JLabel Blabel;
 	
+	private Controller c;
+	private BigPit bigPitB;
+	private BigPit bigPitA;
 	private static final int WINDOW_WIDTH = 800;
 	private static final int WINDOW_HEIGHT = 300;
-
-	public BoardOne() {
+	private int endGame;
+	/**
+	 * Initiates BoardOne with a controller
+	 * @param con - the controller for the board
+	 */
+	public BoardOne(Controller con) 
+	{
+		c = con;
+		endGame = c.getBeadAmount() * 12;
 		this.setTitle("Mancala");
 		board = new JPanel(new BorderLayout());
 		board.setBackground(Color.RED);
 		initializeBoard();
 	}
-	
-	public void initializeBoard() {
-		initializeMainPitB();
-		initializeMainPitA();
+	/**
+	 * Draws the Board
+	 */
+	public void initializeBoard() 
+	{
 		initializeAPits();
+		initializeMainPitA();
 		initializeBPits();
+		initializeMainPitB();
 		initializeCenterBoard();
 		setColor();
 		
@@ -48,54 +66,205 @@ public class BoardOne extends JFrame implements Board  {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);	
 	}
-	public void initializeAPits() {
+	/**
+	 * Creates and draws pits for Player A
+	 */
+	public void initializeAPits() 
+	{
 		Apits = new JPanel(new GridLayout());
-		//Apits.setBackground(Color.RED);
 		Apits.add(fillerSpace3);
 		for(int i = 0; i < 6; i++) {
-			StandardPit stPit = new StandardPit();
+			StandardPit stPit = new StandardPit(c);
+			stPit.addInitialBeads();
 			Apits.add(new JLabel(stPit));
+			c.addPitsA(stPit);
+			c.addPitAll(stPit);
 		}
+		Apits.addMouseListener(new MouseListener(){
+
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				if(c.getCurrentPlayer() != c.getPlayerA())
+				{
+					JOptionPane.showMessageDialog(new JFrame(), "Please only choose pits"
+							+ " from your side of the board");
+				}
+				else
+				{
+					for(int i = 0; i < c.getPlayerAPits().size(); i++)
+					{
+						if(c.getPlayerAPits().get(i).contains(e.getLocationOnScreen()))
+						{
+							int size = c.getPlayerAPits().get(i).getBeadSize();
+							int l = c.getAllPits().indexOf(c.getPlayerAPits().get(i));
+							for(int j = 0; j < size; j++)
+							{
+								l++;
+								if(l > c.getAllPits().size())
+									l = 0;
+								c.getAllPits().get(l).addBead();
+								c.getAllPits().get(i).removeBead();
+							}
+							System.out.println("Registered click");
+							c.switchTurns();
+							repaintAll();
+						}
+					}
+				}
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 		Apits.add(fillerSpace4);
 		board.add(Apits, BorderLayout.SOUTH);
 	}
-	public void initializeBPits() {
+	/**
+	 * Creates and draws pits for Player B
+	 */
+	public void initializeBPits() 
+	{
 		Bpits = new JPanel(new GridLayout());
 		//Bpits.setBackground(Color.RED);
 		Bpits.add(fillerSpace);
-		for(int i = 0; i < 6; i++) {
-			StandardPit stPit = new StandardPit();
+		for(int i = 0; i < 6; i++) 
+		{
+			StandardPit stPit = new StandardPit(c);
+			stPit.addInitialBeads();
 			Bpits.add(new JLabel(stPit));
+			c.addPitsB(stPit);
+			c.addPitAll(stPit);
 		}
 		Bpits.add(fillerSpace2);
+		Bpits.addMouseListener(new MouseListener(){
+
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				if(c.getCurrentPlayer() != c.getPlayerB())
+				{
+					JOptionPane.showMessageDialog(new JFrame(), "Please only choose pits"
+							+ " from your side of the board");
+				}
+				else
+				{
+					for(int i = 0; i < c.getPlayerBPits().size(); i++)
+					{
+						if(c.getPlayerBPits().get(i).contains(e.getLocationOnScreen()))
+						{
+							//move pits through cycle
+							int size = c.getPlayerBPits().get(i).getBeadSize();
+							int l = c.getAllPits().indexOf(c.getPlayerBPits().get(i));
+							for(int j = 0; j < size; j++)
+							{
+								l++;
+								if(l > c.getAllPits().size())
+									l = 0;
+								c.getAllPits().get(l).addBead();
+								c.getAllPits().get(i).removeBead();
+							}
+							System.out.println("Registered click");
+							c.switchTurns();
+							repaintAll();
+						}
+					}
+				}
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+
 		board.add(Bpits, BorderLayout.NORTH);
 	}
-	public void initializeMainPitA() {
+	/**
+	 * Creates and draws the main pit for Player A
+	 */
+	public void initializeMainPitA() 
+	{
 		pitA = new JPanel();
-		//pitA.setBackground(Color.RED);
 		Alabel = new JLabel("A");
 		BigPit bPit = new BigPit();
+		bigPitA = bPit;
 		pitA.add(Alabel);
 		pitA.add(new JLabel(bPit));
+		c.addPitsA(bPit);
+		c.addPitAll(bPit);
 		board.add(pitA, BorderLayout.EAST);
-		
 	}
-	public void initializeMainPitB() {
+	/**
+	 * Creates and draws the main pit for Player B
+	 */
+	public void initializeMainPitB() 
+	{
 		pitB = new JPanel();
-		//pitB.setBackground(Color.RED);
 		Blabel = new JLabel("B");
 		BigPit bPit = new BigPit();
+		bigPitB = bPit;
+		c.addPitAll(bPit);
 		pitB.add(new JLabel(bPit));
 		pitB.add(Blabel);
+		c.addPitsB(bPit);
 		board.add(pitB, BorderLayout.WEST);
 	}
-	public void initializeCenterBoard() {
+	/**
+	 * Creates and Initializes the Center of the Board
+	 */
+	public void initializeCenterBoard() 
+	{
 		displayPanel = new JPanel();
-		//displayPanel.setBackground(Color.RED);
 		newGameBut = new JButton("New Game");
 		newGameBut.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) 
+			{
 				StartMenu s = new StartMenu();
 				closeGameFrame();
 			}
@@ -103,14 +272,45 @@ public class BoardOne extends JFrame implements Board  {
 		displayPanel.add(newGameBut);
 		board.add(displayPanel, BorderLayout.CENTER);
 	}
-	public void closeGameFrame() {
+	/**
+	 * Closes the Mancalla frame
+	 */
+	public void closeGameFrame() 
+	{
 		this.dispose();
 	}
-	public void setColor() {
+	/**
+	 * Sets the color of the board
+	 */
+	public void setColor() 
+	{
 		displayPanel.setBackground(Color.RED);
 		pitB.setBackground(Color.RED);
 		pitA.setBackground(Color.RED);
 		Apits.setBackground(Color.RED);
 		Bpits.setBackground(Color.RED);
+	}
+	public void repaintAll()
+	{
+		pitA.repaint();
+		pitB.repaint();
+		Apits.repaint();
+		Bpits.repaint();
+		revalidate();
+	}
+	public void gameOver()
+	{
+		if(bigPitB.getBeadAmount() == endGame)
+		{
+			JOptionPane.showMessageDialog(new JFrame(), "Player B wins!");
+			closeGameFrame();
+			StartMenu s = new StartMenu();
+		}
+		else if(bigPitA.getBeadAmount() == endGame)
+		{
+			JOptionPane.showMessageDialog(new JFrame(), "Player A wins!");
+			closeGameFrame();
+			StartMenu s = new StartMenu();
+		}
 	}
 }
