@@ -17,27 +17,6 @@ public class BigPit extends Pit
 		bead = new ArrayList<Beads>();
 	}
 	/**
-	 * Adds a new bead to the pit
-	 */
-	public void addBead()
-	{
-		bead.add(new Beads(10, 10));
-	}
-	/**
-	 * Removes last bead from pit
-	 */
-	public void removeBead()
-	{
-		bead.remove(bead.size());
-	}
-	/**
-	 * Get bead amount
-	 */
-	public int getBeadAmount()
-	{
-		return bead.size();
-	}
-	/**
 	 * Adds beads into paint
 	 */
 	public void paintIcon(Component c, Graphics g, int x, int y) 
