@@ -3,10 +3,13 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -74,6 +77,55 @@ public class BoardTwo extends JFrame implements Board  {
 			Apits.add(new JLabel(stPit));
 		}
 		Apits.add(fillerSpace4);
+		Apits.addMouseListener(new MouseListener(){
+
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				if(c.getCurrentPlayer() != c.getPlayerA())
+				{
+					JOptionPane.showMessageDialog(new JFrame(), "Please only choose pits"
+							+ " from your side of the board");
+				}
+				else
+				{
+					for(int i = 0; i < c.getPlayerAPits().size(); i++)
+					{
+						if(c.getPlayerAPits().get(i).contains(e.getLocationOnScreen()))
+						{
+							//move pits through cycle
+							System.out.println("Registered click");
+							c.switchTurns();
+						}
+					}
+				}
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			});
 		board.add(Apits, BorderLayout.SOUTH);
 	}
 	/**
@@ -91,6 +143,55 @@ public class BoardTwo extends JFrame implements Board  {
 			Bpits.add(new JLabel(stPit));
 		}
 		Bpits.add(fillerSpace2);
+		Bpits.addMouseListener(new MouseListener(){
+
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				if(c.getCurrentPlayer() != c.getPlayerB())
+				{
+					JOptionPane.showMessageDialog(new JFrame(), "Please only choose pits"
+							+ " from your side of the board");
+				}
+				else
+				{
+					for(int i = 0; i < c.getPlayerBPits().size(); i++)
+					{
+						if(c.getPlayerBPits().get(i).contains(e.getLocationOnScreen()))
+						{
+							//move pits through cycle
+							System.out.println("Registered click");
+							c.switchTurns();
+						}
+					}
+				}
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			});
 		board.add(Bpits, BorderLayout.NORTH);
 	}
 	/**
