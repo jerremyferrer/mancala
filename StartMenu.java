@@ -1,7 +1,6 @@
 /**
  * StartMenu GUI
  */
-package mancala;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -14,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class StartMenu extends JFrame{
-	
 	private JButton button1;
 	private JButton button2;
 	private JLabel pickNumber;
@@ -25,10 +23,14 @@ public class StartMenu extends JFrame{
 	private JPanel mainPanel;
 	private JButton quit;
 	
-	MancalaModel model;
+	Controller c;
 	
-	
-	public StartMenu() {
+	/**
+	 * Initiates StartMenu where player selects settings for game
+	 */
+	public StartMenu() 
+	{
+		c = new Controller();
 		welcome = new JLabel("Play Mancala!");
 		pickNumber = new JLabel("Select number of beads");
 		button1 = new JButton("3");
@@ -50,7 +52,7 @@ public class StartMenu extends JFrame{
 		this.add(mainPanel);
 		
 		mainPanel.setOpaque(true);
-		mainPanel.setBackground(Color.GREEN);
+		mainPanel.setBackground(Color.GRAY);
 		this.setResizable(false);
 		this.setLocation(600, 200);
 		this.setSize(150, 260);
@@ -58,18 +60,21 @@ public class StartMenu extends JFrame{
 		this.setVisible(true);
 		
 		
-		button1.addActionListener(new ActionListener() {
+		button1.addActionListener(new ActionListener() 
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				// set number of beads to 3
-				model.setInitialBeadAmount(3);
+			public void actionPerformed(ActionEvent e) 
+			{
+				//set number of beads to 3
+				c.setInitialBeadAmount(3);
 			}
 		});
 		button2.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				// set number of beads to 4
-				model.setInitialBeadAmount(4);
+			public void actionPerformed(ActionEvent e) 
+			{
+				//set number of beads to 4
+				c.setInitialBeadAmount(4);
 				
 			}
 		});
@@ -77,9 +82,10 @@ public class StartMenu extends JFrame{
 		board1.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				// call BoardOne and close this frame
-				BoardOne b = new BoardOne();
+			public void actionPerformed(ActionEvent e) 
+			{
+				// TODO call BoardOne and close this frame
+				BoardOne b = new BoardOne(c);
 				closeMenu();
 			}
 		});
@@ -87,9 +93,10 @@ public class StartMenu extends JFrame{
 		board2.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				// call BoardTwo and close this frame
-			    BoardTwo b2 = new BoardTwo();
+			public void actionPerformed(ActionEvent e) 
+			{
+				// TODO call BoardTwo and close this frame
+			    BoardTwo b = new BoardTwo(c);
 				closeMenu();
 			}
 		});
@@ -97,13 +104,17 @@ public class StartMenu extends JFrame{
 		quit.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) 
+			{
 				closeMenu();
-				
 			}
 		});
 	}
-	private void closeMenu() {
+	/**
+	 * Closes the Start Menu
+	 */
+	private void closeMenu() 
+	{
 		this.dispose();
 	}
 }
