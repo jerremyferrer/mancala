@@ -5,7 +5,7 @@ package mancala;
  *
  */
 
-public class Tester {
+public class MancalaTest {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		StartMenu s = new StartMenu();
