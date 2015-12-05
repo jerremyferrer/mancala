@@ -1,3 +1,4 @@
+import java.awt.geom.Point2D;
 import java.util.*;
 /**
  * Controller of Mancalla game
@@ -9,6 +10,9 @@ public class Controller
 	private Model m;
 	/**
 	 * Initiate model
+	 * CONTROLLER CONTAINS ONE MODEL EACH CLASS HOOKS INTO 
+	 * CONTROLLER SO THAT THE CONTROLLER IS THE SAME 
+	 * THROUGHOUT WITH THE SAME MODEL DATA
 	 */
 	public Controller()
 	{
@@ -63,44 +67,84 @@ public class Controller
 		return m.getPlayerA();
 	}
 	/**
+	 * Checks if a pit contains a point
+	 * @param po - point
+	 * @param p - pit
+	 * @return true or false
+	 */
+	public boolean contains(Point2D po, Pit p)
+	{
+		return m.contains(po, p);
+	}
+	/**
+	 * Finds the pit within allPits
+	 * @param p - the pit
+	 * @return pit found
+	 */
+	public Pit findPit(Pit p)
+	{
+		return m.findPit(p);
+	}
+	/**
+	 * Adds a pit to playerApits
+	 * @param p
+	 */
+	public void addPitA(Pit p)
+	{
+		m.addPitA(p);
+	}
+	/**
+	 * Adds a pit to playerBpits
+	 * @param p
+	 */
+	public void addPitB(Pit p)
+	{
+		m.addPitB(p);
+	}
+	/**
 	 * Adds pits to A pits
 	 * @param p - pit to add
 	 */
-	public void addPitsA(Pit p)
+	public int addPitsA()
 	{
-		m.addPitsA(p);
+		return m.addPitsA();
 	}
 	/**
 	 * Adds pits to B pits
 	 * @param p - pit to add
 	 */
-	public void addPitsB(Pit p)
+	public int addPitsB()
 	{
-		m.addPitsB(p);
+		return m.addPitsB();
 	}
 	/**
-	 * Find a specific pit in Player A pits
-	 * @param p - the pit
-	 * @return boolean (whether or not Player A has this pit)
+	 * Returns allPits
+	 * @return allPits
 	 */
-	public boolean findPitA(Pit p)
-	{
-		return m.findPitA(p);
-	}
-	/**
-	 * Find a specific pit in Player B pits
-	 * @param p - the pit
-	 * @return boolean (whether or not Player B has this pit)
-	 */
-	public boolean findPitB(Pit p)
-	{
-		return m.findPitB(p);
-	}
 	public ArrayList<Pit> getAllPits()
 	{
 		return m.getAllPits();
 	}
-	
+	/**
+	 * Adds bead to pit in allPits
+	 * @param p - pit
+	 */
+	public void addBead(Pit p)
+	{
+		m.addBead(p);
+	}
+	/**
+	 * Removes bead from pit in allPits
+	 * @param p - pit
+	 */
+	public void removeBead(Pit p)
+	{
+		m.removeBead(p);
+	}
+	/**
+	 * Adds pit to allPits
+	 * @param p - pit
+	 */
 	public void addPitAll(Pit p)
 	{
 		m.addPitAll(p);
