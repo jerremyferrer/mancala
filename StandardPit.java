@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -17,34 +18,17 @@ import javax.swing.JPanel;
  */
 public class StandardPit extends Pit 
 {
-	public StandardPit(Controller con) 
+	public StandardPit(Controller con, Player play) 
 	{
+		p = play;
 		c = con;
 		width = 70;
 		height = 70;
+		x1 = 30;
+		y1 = 10;
 		x = 30;
-		y = 30;
+		y = 10;
 		shape = new Ellipse2D.Float(0, 0, width, height);
 		bead = new ArrayList<Beads>();
-	}
-	public void addInitialBeads()
-	{
-		int j = 0;
-		while(j < c.getBeadAmount())
-		{
-			this.addBead();
-			j++;
-		}
-	}
-	/**
-	 * Paints Pit with beads inside
-	 */
-	public void paintIcon(Component c, Graphics g, int x, int y) 
-	{
-		super.paintIcon(c, g, x, y);
-		for(int k = 0; k < bead.size(); k++)
-		{
-			bead.get(k).draw((Graphics2D) g);
-		}
 	}
 }
