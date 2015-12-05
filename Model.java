@@ -1,3 +1,4 @@
+import java.awt.geom.Point2D;
 import java.util.*;
 /**
  * Model for the Mancalla game
@@ -18,10 +19,19 @@ public class Model
 	 */
 	public Model() 
 	{
-		current = playerA;
+		playerA = new Player();
+		playerB = new Player();
+		current = playerA; 
+		allPits = new ArrayList<Pit>();
 		playerApits = new ArrayList<Pit>();
 		playerBpits = new ArrayList<Pit>();
 	}
+	/**
+	 * ALL BELOW METHODS ARE SO THAT THE CONTROLLER CAN ACCESS
+	 * ONLY ONE MODEL IN TOTAL. WORK DIRECTLY THROUGH CONTROLLER
+	 * IF YOU WORK THROUGH MODEL YOU END UP WITH MULTIPLE 
+	 * DIFFERENT SETS OF DATA
+	 */
 	/**
 	 * Sets the initial amount of beads
 	 * @param beads - the inital bead amount
@@ -67,41 +77,89 @@ public class Model
 	 * Adds pits to A pits
 	 * @param p - pit to add
 	 */
-	public void addPitsA(Pit p)
+	public int addPitsA()
+	{
+		int j = 0;
+		for(int i = 0; i < 6; i++)
+		{
+			j += allPits.get(i).getBeadSize();
+		}
+		return j;
+	}
+	/**
+	 * Add pits to playerApits
+	 * @param p
+	 */
+	public void addPitA(Pit p)
 	{
 		playerApits.add(p);
+	}
+	/**
+	 * Add pits to playerBpits
+	 * @param p
+	 */
+	public void addPitB(Pit p)
+	{
+		playerBpits.add(p);
 	}
 	/**
 	 * Adds pits to B pits
 	 * @param p - pit to add
 	 */
-	public void addPitsB(Pit p)
+	public int addPitsB()
 	{
-		playerBpits.add(p);
+		int j = 0;
+		for(int i = 7; i < 13; i++)
+		{
+			j += allPits.get(i).getBeadSize();
+		}
+		return j;
 	}
 	/**
-	 * Sees if Player A pits contain a specific pit
-	 * @param p - the pit
-	 * @return boolean true or false
+	 * Add bead to pit inside the arraylist of all pits
+	 * (The reason we need this is to ensure the arraylist
+	 * item of pit is up to date on beads for each pit 
+	 * within the arraylist)
+	 * @param p - pit
 	 */
-	public boolean findPitA(Pit p)
+	public void addBead(Pit p)
 	{
-		if(playerApits.contains(p))
-			return true;
-		else
-			return false;
+		findPit(p).addBead();
 	}
 	/**
-	 * Sees if Player B pits contain a specific pit
-	 * @param p - the pit
-	 * @return boolean true or false
+	 * Remove bead. (follow above explanation)
+	 * @param p - pit
 	 */
-	public boolean findPitB(Pit p)
+	public void removeBead(Pit p)
 	{
-		if(playerBpits.contains(p))
-			return true;
-		else
-			return false;
+		findPit(p).removeBead();
+	}
+	/**
+	 * Returns a pit found in the allPits array
+	 * @param p - pit
+	 * @return q - the pit found
+	 */
+	public Pit findPit(Pit p)
+	{
+		Pit q = null;
+		for(int i = 0; i < allPits.size(); i++)
+		{
+			if(allPits.get(i).equals(p))
+				q = allPits.get(i);
+		}
+		return q;
+	}
+	/**
+	 * See if a specific pit contains the point
+	 * (Need this to find where mouse click is 
+	 * with the mouse listener)
+	 * @param po - the point
+	 * @param p - pit
+	 * @return pit that contains po
+	 */
+	public boolean contains(Point2D po, Pit p)
+	{
+		return p.contains(po);
 	}
 	/**
 	 * Returns the current player
@@ -111,10 +169,18 @@ public class Model
 	{
 		return current;
 	}
+	/**
+	 * Returns all pits arraylist
+	 * @return allPits
+	 */
 	public ArrayList<Pit> getAllPits()
 	{
 		return allPits;
 	}
+	/**
+	 * Adds pit to all pits
+	 * @param p - pit
+	 */
 	public void addPitAll(Pit p)
 	{
 		allPits.add(p);
