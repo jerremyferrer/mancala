@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 
@@ -18,6 +19,7 @@ public class Beads extends JComponent
 	}
 	public void draw(Graphics2D g2)
 	{
+		g2.fill(bead);
 		g2.draw(bead);
 	}
 }
