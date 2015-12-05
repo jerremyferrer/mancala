@@ -8,16 +8,17 @@ import java.awt.event.MouseListener;
 /**
  * Creates a board, BoardOne theme
  * @author Sydney Snyder, Jerremy Ferrer, & Royce Florence Rocco
- *
+ * This code is now fully functional. We just need to modify it so it's more simplistic
+ * if possible.
  */
 public class BoardOne extends JFrame implements Board  
 {
 	private JPanel board;
-	private JPanel Apits;
-	private JPanel Bpits;
-	private JPanel pitA; //player A mancala store
-	private JPanel pitB;//player B mancala store
-	private JPanel displayPanel;
+	protected JPanel Apits;
+	protected JPanel Bpits;
+	protected JPanel pitA; //player A mancala store
+	protected JPanel pitB;//player B mancala store
+	protected JPanel displayPanel;
 	
 	private JButton newGameBut;
 	
@@ -27,7 +28,7 @@ public class BoardOne extends JFrame implements Board
 	private JLabel fillerSpace4 = new JLabel(" ");
 	private JLabel Alabel;
 	private JLabel Blabel;
-	
+	private int x, x2;
 	private Controller c;
 	private BigPit bigPitB;
 	private BigPit bigPitA;
@@ -40,7 +41,9 @@ public class BoardOne extends JFrame implements Board
 	 */
 	public BoardOne(Controller con) 
 	{
-		c = con;
+		x = WINDOW_WIDTH / 8;
+		x2 = WINDOW_WIDTH / 8;
+		c = con; //initalize controller so same as start menu controller
 		endGame = c.getBeadAmount() * 12;
 		this.setTitle("Mancala");
 		board = new JPanel(new BorderLayout());
@@ -74,74 +77,86 @@ public class BoardOne extends JFrame implements Board
 		Apits = new JPanel(new GridLayout());
 		Apits.add(fillerSpace3);
 		for(int i = 0; i < 6; i++) {
-			StandardPit stPit = new StandardPit(c);
-			stPit.addInitialBeads();
-			Apits.add(new JLabel(stPit));
-			c.addPitsA(stPit);
-			c.addPitAll(stPit);
+			StandardPit stPit = new StandardPit(c, c.getPlayerA());
+			c.addPitAll(stPit); // adds pit to allPits in model
+			c.addPitA(stPit); // adds pit to playerApits in model
+			Apits.add(new JLabel(c.findPit(stPit))); // finds pit in allPits (equivalent) for JLabel
+			int j = 0;
+			while(j < c.getBeadAmount()) // gets initial amount of beads I could've done for loop but I made a mess of this code
+			{
+				c.addBead(c.findPit(stPit)); //adds beads to the pit equivalent in allPits
+				j++;
+			}
 		}
+		/**
+		 * PLEASE PUT FULL FOCUS ON THIS PORTION OF THE CODE AND SAME FOR MOUSE LISTENER IN BPITS
+		 */
 		Apits.addMouseListener(new MouseListener(){
 
 			@Override
 			public void mouseClicked(MouseEvent e) 
 			{
-				if(c.getCurrentPlayer() != c.getPlayerA())
+				x = (WINDOW_WIDTH) / 8;//I made it move with window size because mouse clicks 
+				//registered partially outside of the ellipses so this had to be hard coded for now
+				//this is the x location for the first ellipse. It's hard to find location because
+				//we are using a gridlayout which mixes which pixels are where in the ellipse when
+				//coding
+				if(!c.getCurrentPlayer().equals(c.getPlayerA()))//checks if Player A is not current player
 				{
 					JOptionPane.showMessageDialog(new JFrame(), "Please only choose pits"
-							+ " from your side of the board");
+							+ " from your side of the board"); // displays error message if not current player
+				}
+				else if(c.addPitsA() == 0)// if player A side of board has no beads
+				{
+					gameOver();
+					JOptionPane.showMessageDialog(new JFrame(), "There are no beads on your side! "
+							+ "Next player's turn"); //displays error message
+					c.switchTurns();//switches current player to player b
 				}
 				else
 				{
 					for(int i = 0; i < c.getPlayerAPits().size(); i++)
 					{
-						if(c.getPlayerAPits().get(i).contains(e.getLocationOnScreen()))
+						x += WINDOW_WIDTH/8;//switches to the next ellipse/pit
+						if(e.getX() < x)//checks for mouse click event's x and if it is ellipse/pit's x
 						{
-							int size = c.getPlayerAPits().get(i).getBeadSize();
-							int l = c.getAllPits().indexOf(c.getPlayerAPits().get(i));
+							int size = c.getPlayerAPits().get(i).getBeadSize();//size is the bead size of that pit
+							int l = c.getAllPits().indexOf(c.getPlayerAPits().get(i));//looks for index of playerApit in allPits as 
+							//a reference point to start at in the distributing of beads in the arraylist
+							int k = l;//holds original l because l gets changed
 							for(int j = 0; j < size; j++)
 							{
-								l++;
-								if(l > c.getAllPits().size())
-									l = 0;
-								c.getAllPits().get(l).addBead();
-								c.getAllPits().get(i).removeBead();
+									l++;//l is next pit's index
+									if(l == c.getAllPits().size())//go back to beginning of arraylist
+										l = 0;
+									c.addBead(c.getAllPits().get(l));//adds bead to next pit in arraylist
+									c.removeBead(c.getAllPits().get(k));//removes bead from the selected pit
 							}
-							System.out.println("Registered click");
-							c.switchTurns();
-							repaintAll();
+							if(!gameOver())
+							{
+								c.switchTurns();//switches turns
+								repaintAll();//repaints everything inside the frame so it is up to date
+								//this method is pretty long and obnoxious and can definitely be redone
+								break;//pulls you out of loop so you don't keep searching could use a boolean instead too
+							}
 						}
 					}
 				}
-				
+				revalidate();//revalidates all info in frame
 			}
 
 			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
+			public void mousePressed(MouseEvent e) {}
 			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
+			public void mouseReleased(MouseEvent e) {}
 			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
+			public void mouseEntered(MouseEvent e) {}
 			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
+			public void mouseExited(MouseEvent e) {}
 		});
 		Apits.add(fillerSpace4);
 		board.add(Apits, BorderLayout.SOUTH);
+		revalidate();
 	}
 	/**
 	 * Creates and draws pits for Player B
@@ -153,11 +168,16 @@ public class BoardOne extends JFrame implements Board
 		Bpits.add(fillerSpace);
 		for(int i = 0; i < 6; i++) 
 		{
-			StandardPit stPit = new StandardPit(c);
-			stPit.addInitialBeads();
-			Bpits.add(new JLabel(stPit));
-			c.addPitsB(stPit);
+			StandardPit stPit = new StandardPit(c, c.getPlayerB());
 			c.addPitAll(stPit);
+			c.addPitB(stPit);
+			int j = 0;
+			while(j < c.getBeadAmount())
+			{
+				c.addBead(stPit);
+				j++;
+			}
+			Bpits.add(new JLabel(c.findPit(stPit)));
 		}
 		Bpits.add(fillerSpace2);
 		Bpits.addMouseListener(new MouseListener(){
@@ -165,64 +185,66 @@ public class BoardOne extends JFrame implements Board
 			@Override
 			public void mouseClicked(MouseEvent e) 
 			{
-				if(c.getCurrentPlayer() != c.getPlayerB())
+				if(!c.getCurrentPlayer().equals(c.getPlayerB()))
 				{
 					JOptionPane.showMessageDialog(new JFrame(), "Please only choose pits"
 							+ " from your side of the board");
 				}
+				else if(c.addPitsB() == 0)
+				{
+					if(!gameOver())
+					{
+						JOptionPane.showMessageDialog(new JFrame(), "There are no beads on your side! "
+							+ "Next player's turn.");
+						c.switchTurns();
+					}
+				}
 				else
 				{
+					x2 = (WINDOW_WIDTH * 7)/8;//I made it move with window size because mouse clicks 
+					//registered partially outside of the ellipses so this had to be hard coded for now
+					//this is the x location for the first ellipse. It's hard to find location because
+					//we are using a gridlayout which mixes which pixels are where in the ellipse when
+					//coding. This is exact same stuff as the one for playerA
 					for(int i = 0; i < c.getPlayerBPits().size(); i++)
 					{
-						if(c.getPlayerBPits().get(i).contains(e.getLocationOnScreen()))
+						x2 -= WINDOW_WIDTH/8;
+						if(e.getX() > x2)
 						{
-							//move pits through cycle
 							int size = c.getPlayerBPits().get(i).getBeadSize();
 							int l = c.getAllPits().indexOf(c.getPlayerBPits().get(i));
+							int k = l;
 							for(int j = 0; j < size; j++)
 							{
-								l++;
-								if(l > c.getAllPits().size())
-									l = 0;
-								c.getAllPits().get(l).addBead();
-								c.getAllPits().get(i).removeBead();
+									l++;//l is next pit's index
+									if(l == c.getAllPits().size())//go back to beginning of arraylist
+										l = 0;
+									c.addBead(c.getAllPits().get(l));//adds bead to next pit
+									c.removeBead(c.getAllPits().get(k));//removes bead from selected pit
 							}
-							System.out.println("Registered click");
-							c.switchTurns();
-							repaintAll();
+							if(!gameOver())
+							{
+								c.switchTurns();//switches current player
+								repaintAll();//repaints everything inside the frame so it is up to date
+								//this method is pretty long and obnoxious and can definitely be redone
+								break;
+							}
 						}
 					}
 				}
-				
+				revalidate();
 			}
-
 			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
+			public void mousePressed(MouseEvent e) {}
 			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
+			public void mouseReleased(MouseEvent e) {}
 			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
+			public void mouseEntered(MouseEvent e) {}
 			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
+			public void mouseExited(MouseEvent e) {}
 		});
-
 		board.add(Bpits, BorderLayout.NORTH);
+		revalidate();
 	}
 	/**
 	 * Creates and draws the main pit for Player A
@@ -234,9 +256,8 @@ public class BoardOne extends JFrame implements Board
 		BigPit bPit = new BigPit();
 		bigPitA = bPit;
 		pitA.add(Alabel);
-		pitA.add(new JLabel(bPit));
-		c.addPitsA(bPit);
-		c.addPitAll(bPit);
+		c.addPitAll(bigPitA);
+		pitA.add(new JLabel(c.findPit(bigPitA)));
 		board.add(pitA, BorderLayout.EAST);
 	}
 	/**
@@ -248,10 +269,9 @@ public class BoardOne extends JFrame implements Board
 		Blabel = new JLabel("B");
 		BigPit bPit = new BigPit();
 		bigPitB = bPit;
-		c.addPitAll(bPit);
-		pitB.add(new JLabel(bPit));
+		c.addPitAll(bigPitB);
+		pitB.add(new JLabel(c.findPit(bigPitB)));
 		pitB.add(Blabel);
-		c.addPitsB(bPit);
 		board.add(pitB, BorderLayout.WEST);
 	}
 	/**
@@ -273,7 +293,7 @@ public class BoardOne extends JFrame implements Board
 		board.add(displayPanel, BorderLayout.CENTER);
 	}
 	/**
-	 * Closes the Mancalla frame
+	 * Closes the Mancala frame
 	 */
 	public void closeGameFrame() 
 	{
@@ -290,27 +310,105 @@ public class BoardOne extends JFrame implements Board
 		Apits.setBackground(Color.RED);
 		Bpits.setBackground(Color.RED);
 	}
+	/**
+	 * In order to get the picture to update you have to remove everything from the board
+	 * repaint it all re-validate it all and then add it all back in the right order
+	 * so that everything is up to date when it comes to the beads and pits
+	 */
 	public void repaintAll()
 	{
-		pitA.repaint();
-		pitB.repaint();
+		this.getContentPane().remove(board);
+		this.getContentPane().revalidate();
+		this.getContentPane().repaint();
+		board.removeAll();
+		board.revalidate();
+		Apits.removeAll();
+		Apits.add(fillerSpace3);
+		for(int i = 0; i < 6; i++)
+			Apits.add(new JLabel(c.getAllPits().get(i)));
+		Apits.add(fillerSpace4);
+		Apits.revalidate();
 		Apits.repaint();
+		pitA.removeAll();
+		pitA.add(Alabel);
+		pitA.add(new JLabel(c.getAllPits().get(6)));
+		pitA.revalidate();
+		pitA.repaint();
+		Bpits.removeAll();
+		Bpits.add(fillerSpace);
+		for(int i = 12; i > 6; i--)//This part goes backwards because the pits for player B are
+			//entered into the arraylist backwards
+			Bpits.add(new JLabel(c.getAllPits().get(i)));
+		Bpits.add(fillerSpace2);
+		Bpits.revalidate();
 		Bpits.repaint();
-		revalidate();
+		pitB.removeAll();
+		pitB.add(new JLabel(c.getAllPits().get(13)));
+		pitB.add(Blabel);
+		pitB.revalidate();
+		pitB.repaint();
+		board.add(displayPanel, BorderLayout.CENTER);
+		board.revalidate();
+		board.repaint();
+		board.add(Apits, BorderLayout.SOUTH);
+		board.revalidate();
+		board.repaint();
+		board.add(pitA, BorderLayout.EAST);
+		board.revalidate();
+		board.repaint();
+		board.add(Bpits, BorderLayout.NORTH);
+		board.revalidate();
+		board.repaint();
+		board.add(pitB, BorderLayout.WEST);
+		board.revalidate();
+		board.repaint();
+		this.getContentPane().add(board);
+		this.getContentPane().revalidate();
+		this.getContentPane().repaint();
 	}
-	public void gameOver()
+	/**
+	 * Checks to see if one of the pits holds all of the beads
+	 */
+	public boolean gameOver()
 	{
 		if(bigPitB.getBeadSize() == endGame)
 		{
 			JOptionPane.showMessageDialog(new JFrame(), "Player B wins!");
 			closeGameFrame();
 			StartMenu s = new StartMenu();
+			return true;
 		}
 		else if(bigPitA.getBeadSize() == endGame)
 		{
 			JOptionPane.showMessageDialog(new JFrame(), "Player A wins!");
 			closeGameFrame();
 			StartMenu s = new StartMenu();
+			return true;
 		}
+		else if(c.addPitsA() == 0 && c.addPitsB() == 0)
+		{
+			if(bigPitA.getBeadSize() > bigPitB.getBeadSize())
+			{
+				JOptionPane.showMessageDialog(new JFrame(), "Player A wins!");
+				closeGameFrame();
+				StartMenu s = new StartMenu();
+				return true;
+			}
+			else if(bigPitA.getBeadSize() < bigPitB.getBeadSize())
+			{
+				JOptionPane.showMessageDialog(new JFrame(), "Player B wins!");
+				closeGameFrame();
+				StartMenu s = new StartMenu();
+				return true;
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(new JFrame(), "It's a tie!");
+				closeGameFrame();
+				StartMenu s = new StartMenu();
+				return true;
+			}
+		}
+		return false;
 	}
 }
