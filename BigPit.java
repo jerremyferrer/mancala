@@ -4,7 +4,10 @@ import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-
+/**
+ * Establishes the variables for BigPit which is a subclass of Pit
+ * @author Sydney Snyder, Jerremy Ferrer, & Royce Florence Rocco
+ */
 public class BigPit extends Pit 
 {
 	/**
