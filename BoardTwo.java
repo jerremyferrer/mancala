@@ -30,11 +30,11 @@ public class BoardTwo extends BoardOne  {
 	@Override
 	public void setColor() 
 	{
-		displayPanel.setBackground(Color.CYAN);
-		pitB.setBackground(Color.CYAN);
-		pitA.setBackground(Color.CYAN);
-		Apits.setBackground(Color.CYAN);
-		Bpits.setBackground(Color.CYAN);
+		displayPanel.setBackground(Color.GREEN);
+		pitB.setBackground(Color.GREEN);
+		pitA.setBackground(Color.GREEN);
+		Apits.setBackground(Color.GREEN);
+		Bpits.setBackground(Color.GREEN);
 	}
 
 }
