@@ -108,10 +108,10 @@ public class BoardOne extends JFrame implements Board
 				}
 				else if(c.addPitsA() == 0)// if player A side of board has no beads
 				{
-					gameOver();
-					JOptionPane.showMessageDialog(new JFrame(), "There are no beads on your side! "
-							+ "Next player's turn."); //displays error message
-					c.switchTurns();//switches current player to player b
+					gameOver(); 
+					for(int i = 0; i < c.addPitsB(); i++)
+						bigPitB.addBead();
+					gameOver(); 
 				}
 				else
 				{
@@ -129,15 +129,46 @@ public class BoardOne extends JFrame implements Board
 									l++;//l is next pit's index
 									if(l == c.getAllPits().size())//go back to beginning of arraylist
 										l = 0;
-									c.addBead(c.getAllPits().get(l));//adds bead to next pit in arraylist
-									c.removeBead(c.getAllPits().get(k));//removes bead from the selected pit
+									if(!c.getAllPits().get(l).equals(bigPitB))
+									{
+										c.addBead(c.getAllPits().get(l));//adds bead to next pit in arraylist
+										c.removeBead(c.getAllPits().get(k));//removes bead from the selected pit
+									}
+									else
+										j+=1;
 							}
-							if(!gameOver())
+							if(c.getAllPits().get(l).getBeadSize() == 1 && c.getPlayerAPits().contains(c.getAllPits().get(l))
+									&& !c.getAllPits().get(l).equals(bigPitA))
+							{
+								x2 = 7*WINDOW_WIDTH/8;//since B is in array backwards need to start at far end of window
+								Pit p = null;//have to initiate pit
+								for(int j = 0; j < 6; j++)
+								{
+									x2 -= WINDOW_WIDTH/8;//cycle until find the x2 that is equal to the current x
+									if(x == x2)//the pit that is at x2 is the pit to subtract from
+										p =c.getPlayerBPits().get(j);
+								}
+								if(p.getBeadSize() > 0)
+								{
+									for(int r = 0; r < p.getBeadSize() + 1; r++)
+									{
+										c.getAllPits().get(l).addBead();
+										p.removeBead();
+									}
+								}
+							}
+							if(!gameOver() && !c.getAllPits().get(l).equals(bigPitA))
 							{
 								c.switchTurns();//switches turns
 								repaintAll();//repaints everything inside the frame so it is up to date
 								//this method is pretty long and obnoxious and can definitely be redone
 								break;//pulls you out of loop so you don't keep searching could use a boolean instead too
+							}
+							else if(c.getAllPits().get(l).equals(bigPitA))
+							{
+								repaintAll();
+								JOptionPane.showMessageDialog(new JFrame(), "Player A go again.");
+								break;
 							}
 						}
 					}
@@ -191,13 +222,8 @@ public class BoardOne extends JFrame implements Board
 							+ " from your side of the board.");
 				}
 				else if(c.addPitsB() == 0)
-				{
-					if(!gameOver())
-					{
-						JOptionPane.showMessageDialog(new JFrame(), "There are no beads on your side! "
-							+ "Next player's turn.");
-						c.switchTurns();
-					}
+				{ 
+					gameOver(); 
 				}
 				else
 				{
@@ -219,14 +245,47 @@ public class BoardOne extends JFrame implements Board
 									l++;//l is next pit's index
 									if(l == c.getAllPits().size())//go back to beginning of arraylist
 										l = 0;
-									c.addBead(c.getAllPits().get(l));//adds bead to next pit
-									c.removeBead(c.getAllPits().get(k));//removes bead from selected pit
+									if(!c.getAllPits().get(l).equals(bigPitA))
+									{
+										c.addBead(c.getAllPits().get(l));//adds bead to next pit in arraylist
+										c.removeBead(c.getAllPits().get(k));//removes bead from the selected pit
+									}
+									else
+										j+=1;
 							}
-							if(!gameOver())
+							if(c.getAllPits().get(l).getBeadSize() == 1 && c.getPlayerBPits().contains(c.getAllPits().get(l))
+									&& !c.getAllPits().get(l).equals(bigPitB))
+							{
+								x = WINDOW_WIDTH/8;
+								Pit p = null;
+								for(int j = 0; j < 6; j++)
+								{
+									x += WINDOW_WIDTH/8;//finding which pit is positioned across from the current one
+									if(x == x2)//if that is the one positioned across then that is the pit
+										p =c.getPlayerAPits().get(j);
+								}
+								if(p.getBeadSize() > 0)
+								{
+									int m = p.getBeadSize();//made separate variable otherwise the size would 
+									//continually change and the numbers would be wrong
+									for(int r = 0; r < m; r++)
+									{
+										c.getAllPits().get(l).addBead();//add the beads to the pit
+										p.removeBead();//remove from the pit across
+									}
+								}
+							}
+							if(!gameOver() && !c.getAllPits().get(l).equals(bigPitB))
 							{
 								c.switchTurns();//switches current player
 								repaintAll();//repaints everything inside the frame so it is up to date
 								//this method is pretty long and obnoxious and can definitely be redone
+								break;
+							}
+							else if(c.getAllPits().get(l).equals(bigPitB))
+							{
+								repaintAll();
+								JOptionPane.showMessageDialog(new JFrame(), "Player B go again.");
 								break;
 							}
 						}
@@ -379,14 +438,14 @@ public class BoardOne extends JFrame implements Board
 	 */
 	public boolean gameOver()
 	{
-		if(bigPitB.getBeadSize() == endGame)
+		if(bigPitB.getBeadSize() == endGame || c.addPitsA() == 0) 
 		{
 			JOptionPane.showMessageDialog(new JFrame(), "Player B wins!");
 			closeGameFrame();
 			StartMenu s = new StartMenu();
 			return true;
 		}
-		else if(bigPitA.getBeadSize() == endGame)
+		else if(bigPitA.getBeadSize() == endGame || c.addPitsB() == 0)
 		{
 			JOptionPane.showMessageDialog(new JFrame(), "Player A wins!");
 			closeGameFrame();
