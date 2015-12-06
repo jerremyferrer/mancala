@@ -16,7 +16,7 @@ import javax.swing.event.ChangeListener;
  * @author Sydney Snyder, Jerremy Ferrer, & Royce Florence Rocco
  *
  */
-public abstract class Pit implements Icon, ChangeListener 
+public abstract class Pit implements Icon 
 {
 	protected Ellipse2D shape;
 	protected Player p;
@@ -32,6 +32,7 @@ public abstract class Pit implements Icon, ChangeListener
 	public void paintIcon(Component c, Graphics g, int x, int y) 
 	{
 		// TODO Complete third line
+		
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.BLACK);
 		g2.draw(new Ellipse2D.Float(x, y, width, height));
@@ -41,6 +42,22 @@ public abstract class Pit implements Icon, ChangeListener
 		}
 	}
 	/**
+	 * Returns icon width
+	 * @return width
+	 */
+	public int getIconWidth()
+	{
+		return width;
+	}
+	/**
+	 * Returns icon height
+	 * @return height
+	 */
+	public int getIconHeight()
+	{
+		return height;
+	}
+	/**
 	 * Adds bead and updates x
 	 * (x is updated so that beads 
 	 * are put in the proper place inside
@@ -48,23 +65,15 @@ public abstract class Pit implements Icon, ChangeListener
 	 */
 	public void addBead()
 	{
-		if(ifXagain == true)
+		bead.add(new Beads(x,y));
+		if(x < width - x1 + 10) //these numbers are chosen so that the beads don't fall out of the panel
 		{
-			x = x1;
-			y = y1;
-			bead.add(new Beads(x, y));
-			ifXagain = false;
-		}
-		else if(x < width)
-		{
-			bead.add(new Beads(x, y));
-			x += BEADSIZE+2;
+			x += BEADSIZE+2;//bead width + a 2 pixel gap between beads
 		}
 		else
 		{
-			bead.add(new Beads(x, y));
-			y += BEADSIZE+2;
-			x = x1;//how far in it needs to be from edge to be visible
+			y += BEADSIZE+2;//bead height + a 2 pixel gap between beads
+			x = x1;//the original x
 		}
 	}
 	/**
@@ -74,63 +83,24 @@ public abstract class Pit implements Icon, ChangeListener
 	 */
 	public void removeBead()
 	{
-		if(bead.size() == 1)
+		if(bead.size() != 0)
 		{
-			ifXagain = true;
-			bead.remove(bead.size()-1);
-		}
-		else if(bead.size() == 0)
-		{
-			x = x1;
-			y = y1;
+			Beads b = bead.get(bead.size() - 1);//get last bead
+			x = b.getX();//since we are removing the last bead we make x&y for the next bead
+			y = b.getY();//to be the bead we removes x & y so that it will take its place
+			bead.remove(bead.size() - 1);//remove last bead
 		}
 		else
 		{
-			bead.remove(bead.size() - 1);
-			if(x > x1)
-				x -= BEADSIZE + 2;
-			else if(x != x1)
-				y -= BEADSIZE + 2;
+			x = x1; y = y1;//x and y stay how they were originally if there are no beads
 		}
 	}
-	public int getIconWidth() {
-		// TODO Auto-generated method stub
-		return width;
-	}
-
-	public Player getPlayer()
-	{
-		return p;
-	}
-	public int getIconHeight() {
-		// TODO Auto-generated method stub
-		return height;
-	}
-	public Ellipse2D getShape()
-	{
-		return shape;
-	}
-	@Override
-	public void stateChanged(ChangeEvent e) 
-	{
-	//probably didn't need this	
-	}
 	/**
-	 * Checks to see if the ellipse contains the 
-	 * clicked point)
-	 * @param p - point
-	 * @return true or false
+	 * Returns amount of beads in pit
+	 * @return beads in pit
 	 */
-	public boolean contains(Point2D p)
-	{
-		return shape.contains(p);
-	}
 	public int getBeadSize()
 	{
 		return bead.size();
-	}
-	public String toString()
-	{
-		return "Pit[bead size = " + bead.size() + ", Location =" + x +", " + y + "]";
 	}
 }
