@@ -150,18 +150,6 @@ public class Model
 		return q;
 	}
 	/**
-	 * See if a specific pit contains the point
-	 * (Need this to find where mouse click is 
-	 * with the mouse listener)
-	 * @param po - the point
-	 * @param p - pit
-	 * @return pit that contains po
-	 */
-	public boolean contains(Point2D po, Pit p)
-	{
-		return p.contains(po);
-	}
-	/**
 	 * Returns the current player
 	 * @return current player
 	 */
