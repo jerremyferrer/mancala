@@ -137,20 +137,21 @@ public class BoardOne extends JFrame implements Board
 									else
 										j+=1;
 							}
-							if(c.getAllPits().get(l).getBeadSize() == 1 && c.getPlayerAPits().contains(c.getAllPits().get(l))
+							if(size == 1 && c.getAllPits().get(l).getBeadSize() == 1 && c.getPlayerAPits().contains(c.getAllPits().get(l))
 									&& !c.getAllPits().get(l).equals(bigPitA))
 							{
-								x2 = 7*WINDOW_WIDTH/8;//since B is in array backwards need to start at far end of window
-								Pit p = null;//have to initiate pit
+								x2 = 7*WINDOW_WIDTH/8;
+								Pit p = null;
 								for(int j = 0; j < 6; j++)
 								{
-									x2 -= WINDOW_WIDTH/8;//cycle until find the x2 that is equal to the current x
-									if(x == x2)//the pit that is at x2 is the pit to subtract from
+									x2 -= WINDOW_WIDTH/8;
+									if(x == x2)
 										p =c.getPlayerBPits().get(j);
 								}
 								if(p.getBeadSize() > 0)
 								{
-									for(int r = 0; r < p.getBeadSize() + 1; r++)
+									int o = p.getBeadSize();
+									for(int r = 0; r < o; r++)
 									{
 										c.getAllPits().get(l).addBead();
 										p.removeBead();
@@ -253,25 +254,24 @@ public class BoardOne extends JFrame implements Board
 									else
 										j+=1;
 							}
-							if(c.getAllPits().get(l).getBeadSize() == 1 && c.getPlayerBPits().contains(c.getAllPits().get(l))
+							if(size == 1 && c.getAllPits().get(l).getBeadSize() == 1 && c.getPlayerBPits().contains(c.getAllPits().get(l))
 									&& !c.getAllPits().get(l).equals(bigPitB))
 							{
 								x = WINDOW_WIDTH/8;
 								Pit p = null;
 								for(int j = 0; j < 6; j++)
 								{
-									x += WINDOW_WIDTH/8;//finding which pit is positioned across from the current one
-									if(x == x2)//if that is the one positioned across then that is the pit
+									x += WINDOW_WIDTH/8;
+									if(x == x2)
 										p =c.getPlayerAPits().get(j);
 								}
 								if(p.getBeadSize() > 0)
 								{
-									int m = p.getBeadSize();//made separate variable otherwise the size would 
-									//continually change and the numbers would be wrong
+									int m = p.getBeadSize();
 									for(int r = 0; r < m; r++)
 									{
-										c.getAllPits().get(l).addBead();//add the beads to the pit
-										p.removeBead();//remove from the pit across
+										c.getAllPits().get(l).addBead();
+										p.removeBead();
 									}
 								}
 							}
@@ -438,7 +438,7 @@ public class BoardOne extends JFrame implements Board
 	 */
 	public boolean gameOver()
 	{
-		if(bigPitB.getBeadSize() == endGame || c.addPitsA() == 0) 
+		if(bigPitB.getBeadSize() == endGame || c.addPitsA() == 0)
 		{
 			JOptionPane.showMessageDialog(new JFrame(), "Player B wins!");
 			closeGameFrame();
@@ -479,3 +479,4 @@ public class BoardOne extends JFrame implements Board
 		return false;
 	}
 }
+
