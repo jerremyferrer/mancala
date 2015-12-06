@@ -2,7 +2,7 @@ import java.awt.geom.Point2D;
 import java.util.*;
 /**
  * Controller of Mancalla game
- * @author Sydney Snyder
+ * @author Sydney Snyder, Jerremy Ferrer, & Royce Florence Rocco
  *
  */
 public class Controller 
@@ -16,7 +16,7 @@ public class Controller
 	 */
 	public Controller()
 	{
-		m = new Model();
+		m = new Model();//initiate model
 	}
 	/**
 	 * Set amount of beads
@@ -67,16 +67,6 @@ public class Controller
 		return m.getPlayerA();
 	}
 	/**
-	 * Checks if a pit contains a point
-	 * @param po - point
-	 * @param p - pit
-	 * @return true or false
-	 */
-	public boolean contains(Point2D po, Pit p)
-	{
-		return m.contains(po, p);
-	}
-	/**
 	 * Finds the pit within allPits
 	 * @param p - the pit
 	 * @return pit found
@@ -102,16 +92,14 @@ public class Controller
 		m.addPitB(p);
 	}
 	/**
-	 * Adds pits to A pits
-	 * @param p - pit to add
+	 * Adds total beads in Pits on A side
 	 */
 	public int addPitsA()
 	{
 		return m.addPitsA();
 	}
 	/**
-	 * Adds pits to B pits
-	 * @param p - pit to add
+	 * Adds total beads in Pits on B side
 	 */
 	public int addPitsB()
 	{
