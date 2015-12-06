@@ -77,10 +77,10 @@ public class BoardOne extends JFrame implements Board
 		Apits = new JPanel(new GridLayout());
 		Apits.add(fillerSpace3);
 		for(int i = 0; i < 6; i++) {
-			StandardPit stPit = new StandardPit(c, c.getPlayerA());
+			StandardPit stPit = new StandardPit(c);
 			c.addPitAll(stPit); // adds pit to allPits in model
 			c.addPitA(stPit); // adds pit to playerApits in model
-			Apits.add(new JLabel(c.findPit(stPit))); // finds pit in allPits (equivalent) for JLabel
+			Apits.add(new JLabel(c.findPit(stPit))); //finds pit in allPits (equivalent) for JLabel
 			int j = 0;
 			while(j < c.getBeadAmount()) // gets initial amount of beads I could've done for loop but I made a mess of this code
 			{
@@ -104,13 +104,13 @@ public class BoardOne extends JFrame implements Board
 				if(!c.getCurrentPlayer().equals(c.getPlayerA()))//checks if Player A is not current player
 				{
 					JOptionPane.showMessageDialog(new JFrame(), "Please only choose pits"
-							+ " from your side of the board"); // displays error message if not current player
+							+ " from your side of the board."); // displays error message if not current player
 				}
 				else if(c.addPitsA() == 0)// if player A side of board has no beads
 				{
 					gameOver();
 					JOptionPane.showMessageDialog(new JFrame(), "There are no beads on your side! "
-							+ "Next player's turn"); //displays error message
+							+ "Next player's turn."); //displays error message
 					c.switchTurns();//switches current player to player b
 				}
 				else
@@ -168,7 +168,7 @@ public class BoardOne extends JFrame implements Board
 		Bpits.add(fillerSpace);
 		for(int i = 0; i < 6; i++) 
 		{
-			StandardPit stPit = new StandardPit(c, c.getPlayerB());
+			StandardPit stPit = new StandardPit(c);
 			c.addPitAll(stPit);
 			c.addPitB(stPit);
 			int j = 0;
@@ -188,7 +188,7 @@ public class BoardOne extends JFrame implements Board
 				if(!c.getCurrentPlayer().equals(c.getPlayerB()))
 				{
 					JOptionPane.showMessageDialog(new JFrame(), "Please only choose pits"
-							+ " from your side of the board");
+							+ " from your side of the board.");
 				}
 				else if(c.addPitsB() == 0)
 				{
@@ -279,7 +279,11 @@ public class BoardOne extends JFrame implements Board
 	 */
 	public void initializeCenterBoard() 
 	{
-		displayPanel = new JPanel();
+		displayPanel = new JPanel(new GridLayout(3,6));
+		for(int i = 6; i > 0; i--)
+			displayPanel.add(new JLabel("           B" + i));
+		for(int i = 3; i > 0; i--)
+			displayPanel.add(new JLabel(" "));
 		newGameBut = new JButton("New Game");
 		newGameBut.addActionListener(new ActionListener() {
 			@Override
@@ -290,6 +294,10 @@ public class BoardOne extends JFrame implements Board
 			}
 		});
 		displayPanel.add(newGameBut);
+		for(int i = 2; i > 0; i--)
+			displayPanel.add(new JLabel(" "));
+		for(int i = 1; i < 7; i++)
+			displayPanel.add(new JLabel("            A" + i));
 		board.add(displayPanel, BorderLayout.CENTER);
 	}
 	/**
