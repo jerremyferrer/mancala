@@ -1,9 +1,9 @@
 /**
  * Tests game
- * @author 
+ * @author Sydney Snyder, Jerremy Ferrer, & Royce Florence Rocco
  */
 
-public class Tester 
+public class MancalaTester 
 {
 	public static void main(String[] args) 
 	{
