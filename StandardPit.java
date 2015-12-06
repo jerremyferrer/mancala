@@ -13,14 +13,13 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 /**
  * Creates Pit ellipse
- * @author Sydney Snyder, Jerremy Ferrer
+ * @author Sydney Snyder, Jerremy Ferrer, & Royce Florence Rocco
  *
  */
 public class StandardPit extends Pit 
 {
-	public StandardPit(Controller con, Player play) 
+	public StandardPit(Controller con) //need to be sure controller&model are same throughout code
 	{
-		p = play;
 		c = con;
 		width = 70;
 		height = 70;
